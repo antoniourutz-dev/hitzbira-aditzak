@@ -1,4 +1,4 @@
-const CACHE="hitzbira-pwa-0.9.4",PREFIX="hitzbira-pwa-",ASSETS=["/manifest.webmanifest","/icons/icon-192.png","/icons/icon-512.png","/icons/maskable-512.png","/icons/apple-touch-icon.png"],MARK='content="0.9.4"';
+const CACHE="hitzbira-pwa-0.9.5",PREFIX="hitzbira-pwa-",ASSETS=["/manifest.webmanifest","/icons/icon-192.png","/icons/icon-512.png","/icons/maskable-512.png","/icons/apple-touch-icon.png"],MARK='content="0.9.5"';
 self.addEventListener("install",event=>{event.waitUntil((async()=>{const c=await caches.open(CACHE);const page=await fetch("/",{cache:"reload"});if(!page.ok||!(await page.clone().text()).includes(MARK))throw Error("App shell mismatch");await c.put("/",page);await c.addAll(ASSETS.map(url=>new Request(url,{cache:"reload"})));})());});
 self.addEventListener("activate",event=>{event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith(PREFIX)&&key!==CACHE)await caches.delete(key);await self.clients.claim();})());});
 self.addEventListener("message",event=>{if(event.data?.type==="SKIP_WAITING")self.skipWaiting();});
